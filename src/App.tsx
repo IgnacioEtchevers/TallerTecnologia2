@@ -6,11 +6,10 @@ import { Tokens } from "./components/Tokens";
 export default function App() {
   const { isConnected } = useAccount();
 
-  // si no hay wallet conectada, solamente mostramos el botón y nada más
   if (!isConnected) {
     return (
       <div className="hero">
-        <h1>Entrega 1 — Panel con Wallet</h1>
+        <h1>Entrega 1</h1>
         <p>Conectá tu wallet para ver tu cuenta en Sepolia.</p>
         <ConnectButton label="Conectar wallet" />
       </div>

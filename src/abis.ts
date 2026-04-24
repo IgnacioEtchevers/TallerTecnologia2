@@ -1,4 +1,4 @@
-// abi mínimo de un ERC-20, solo las funciones que voy a leer
+// ABI mínimo del ERC-20
 export const erc20 = [
   { type: "function", name: "name", stateMutability: "view", inputs: [], outputs: [{ type: "string" }] },
   { type: "function", name: "symbol", stateMutability: "view", inputs: [], outputs: [{ type: "string" }] },
@@ -7,7 +7,7 @@ export const erc20 = [
     type: "function",
     name: "balanceOf",
     stateMutability: "view",
-    inputs: [{ name: "a", type: "address" }],
+    inputs: [{ name: "owner", type: "address" }],
     outputs: [{ type: "uint256" }],
   },
 ] as const;

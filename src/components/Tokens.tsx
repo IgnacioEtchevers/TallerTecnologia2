@@ -3,9 +3,7 @@ import { sepolia } from "wagmi/chains";
 import { formatUnits, type Address } from "viem";
 import { erc20 } from "../abis";
 
-// los dos tokens que elegí, los dos están en Sepolia
-// LINK: https://sepolia.etherscan.io/token/0x779877A7B0D9E8603169DdbD7836e478b4624789
-// USDC: https://sepolia.etherscan.io/token/0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238
+// LINK y USDC en Sepolia
 const TOKENS: Address[] = [
   "0x779877A7B0D9E8603169DdbD7836e478b4624789",
   "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
@@ -26,7 +24,6 @@ export function Tokens() {
 }
 
 function Token({ contrato, owner }: { contrato: Address; owner: Address }) {
-  // uso useReadContracts para meter las 4 lecturas en un solo batch
   const base = { address: contrato, abi: erc20, chainId: sepolia.id } as const;
 
   const { data, isLoading, isError } = useReadContracts({
@@ -39,8 +36,8 @@ function Token({ contrato, owner }: { contrato: Address; owner: Address }) {
     ],
   });
 
-  if (isLoading) return <div className="fila"><span>Cargando…</span></div>;
-  if (isError || !data) return <div className="fila"><span>Error leyendo {contrato.slice(0, 8)}…</span></div>;
+  if (isLoading) return <div className="fila"><span>Cargando...</span></div>;
+  if (isError || !data) return <div className="fila"><span>Error</span></div>;
 
   const [name, symbol, decimals, raw] = data;
   const monto = Number(formatUnits(raw, decimals)).toFixed(4);
