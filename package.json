@@ -1,13 +1,15 @@
 {
-  "name": "entrega-1-ui",
+  "name": "entrega-2-multisig",
   "private": true,
-  "version": "0.1.0",
-  "type": "module",
+  "version": "0.2.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "typecheck": "tsc --noEmit",
-    "preview": "vite preview"
+    "build": "tsc --noEmit -p tsconfig.app.json && vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "preview": "vite preview",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.2.0",
@@ -18,10 +20,13 @@
     "wagmi": "^2.12.0"
   },
   "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "typescript": "^5.5.3",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.0",
+    "typescript": "~5.5.3",
     "vite": "^5.4.0"
   }
 }
