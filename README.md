@@ -64,11 +64,10 @@ Abrir `http://localhost:5173`, conectar MetaMask en Sepolia con alguna de las wa
 
 ## Despliegue actual en Sepolia
 
-> Completar después de hacer el deploy:
 
-- **Contrato:** `0x...PEGAR_AQUI_LA_ADDRESS`
+- **Contrato:** `0xfe39aed085e9093ccac10b8c90aa2bb6abf1496e`
 - **Signers:**
-  - `0xTU_WALLET_PRINCIPAL` (signer 1, deployer)
+  - `0xd4D5E9f5382A8d6141d26b8a72B03b2d310ecF83` (signer 1, deployer)
   - `0x6B5388A73fCfA5B04044ed27Eda725f0e6325259` (signer 2)
   - `0x49DD72aD4ACA2dD69D5A1aaFd5742da512227729` (signer 3)
 - **Threshold:** 2 de 3
