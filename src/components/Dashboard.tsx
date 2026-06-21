@@ -1,10 +1,10 @@
 import React from "react";
 import { usePublicClient } from "wagmi"
 import { sepolia } from "wagmi/chains";
-import { formatEther } from "viem";
 import { jobMarketplaceAbi } from "../abis";
 import { MARKETPLACE_ADDRESS } from "../contract";
 import { useQuery } from "@tanstack/react-query";
+import { JobCard } from "./JobCard";
 
 export const Dashboard = () => {
 
@@ -37,13 +37,15 @@ export const Dashboard = () => {
 
             {events?.map((event) => {
                 const { id, client, budget, description } = event.args;
+                if (id === undefined) return null;
                 return (
-                    <div className="prop" key={id?.toString()}>
-                        <b>Trabajo #{id?.toString()}</b>
-                        <p>{description}</p>
-                        <p>Budget: {formatEther(budget ?? 0n)} LINK</p>
-                        <p>Cliente: <code>{client}</code></p>
-                    </div>
+                <JobCard
+                    key={id.toString()}
+                    id={id}
+                    client={client ?? ""}
+                    budget={budget ?? 0n}
+                    description={description ?? ""}
+                />
                 );
             })}
 
