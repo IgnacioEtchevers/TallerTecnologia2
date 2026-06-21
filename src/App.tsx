@@ -4,6 +4,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { Dashboard } from "./components/Dashboard";
 import { JobDetail } from "./components/JobDetail";
+import { PublishJob } from "./components/PublishJob";
 
 type View = 
   | {name: "dashboard"}
@@ -42,7 +43,9 @@ export default function App() {
       {view.name === "detail" && (
         <JobDetail jobId={view.jobId} onBack={() => setView({ name: "dashboard" })} />
       )}
-      {view.name === "publish" && <p>Publicar Trabajo</p>}
+      {view.name === "publish" && (
+        <PublishJob onPublished={() => setView({ name: "dashboard" })} />
+      )}
     </div>
   );
 }

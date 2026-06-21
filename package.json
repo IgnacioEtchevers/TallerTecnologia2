@@ -12,12 +12,15 @@
     "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
     "@rainbow-me/rainbowkit": "^2.2.0",
     "@tanstack/react-query": "^5.59.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.80.0",
     "viem": "^2.21.0",
-    "wagmi": "^2.12.0"
+    "wagmi": "^2.12.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
