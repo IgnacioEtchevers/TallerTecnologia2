@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { Dashboard } from "./components/Dashboard";
+import { JobDetail } from "./components/JobDetail";
 
 type View = 
   | {name: "dashboard"}
@@ -38,7 +39,9 @@ export default function App() {
       {view.name === "dashboard" && (
         <Dashboard onOpenJob={(id) => setView({ name: "detail", jobId: id })} />
       )}
-      {view.name === "detail" && <p>Detalle del trabajo #{view.jobId.toString()}</p>}
+      {view.name === "detail" && (
+        <JobDetail jobId={view.jobId} onBack={() => setView({ name: "dashboard" })} />
+      )}
       {view.name === "publish" && <p>Publicar Trabajo</p>}
     </div>
   );
