@@ -1,4 +1,3 @@
-import React from "react";
 import { usePublicClient } from "wagmi"
 import { sepolia } from "wagmi/chains";
 import { jobMarketplaceAbi } from "../abis";

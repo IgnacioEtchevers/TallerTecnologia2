@@ -4,6 +4,7 @@ import { sepolia } from "wagmi/chains";
 import { keccak256, toBytes, isAddress, type Address, type BaseError } from "viem";
 import { jobMarketplaceAbi } from "../abis";
 import { MARKETPLACE_ADDRESS } from "../contract";
+import { FundButton } from "./FundButton";
 
 const OPEN = 0;
 const FUNDED = 1;
@@ -15,6 +16,7 @@ type ActionPanelProps = {
   client: string;
   provider: string;
   evaluator: string;
+  budget: bigint;
   status: number;
   expiresAt: bigint;
   onChange: () => void;
@@ -25,6 +27,7 @@ export const ActionPanel = ({
   client,
   provider,
   evaluator,
+  budget,
   status,
   expiresAt,
   onChange,
@@ -94,19 +97,25 @@ export const ActionPanel = ({
         </div>
       )}
 
-      {/* Cliente, Open → rechazar (el Fondear viene en la Parte B2) */}
       {isClient && status === OPEN && (
-        <div className="acciones">
-          <input
-            placeholder="motivo (opcional)"
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
+        <>
+          <FundButton 
+            jobId={jobId} 
+            budget={budget} 
+            onChange={onChange} 
           />
-          <button className="ghost" disabled={isTransactionProcessing} onClick={reject}>Rechazar</button>
-        </div>
+          
+          <div className="acciones">
+            <input
+              placeholder="motivo (opcional)"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+            />
+            <button className="ghost" disabled={isTransactionProcessing} onClick={reject}>Rechazar</button>
+          </div>
+        </>
       )}
 
-      {/* Proveedor, Funded → enviar entrega */}
       {isProvider && status === FUNDED && (
         <div className="acciones">
           <input
@@ -118,7 +127,6 @@ export const ActionPanel = ({
         </div>
       )}
 
-      {/* Evaluador, Submitted → aprobar / rechazar */}
       {isEvaluator && status === SUBMITTED && (
         <div className="acciones">
           <input

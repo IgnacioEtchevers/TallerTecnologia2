@@ -1,4 +1,3 @@
-import React from "react";
 import { useReadContract } from "wagmi";
 import { MARKETPLACE_ADDRESS } from "../contract";
 import { jobMarketplaceAbi } from "../abis";

@@ -55,6 +55,7 @@ export const JobDetail = ({ jobId, onBack }: JobDetailProps) => {
         client={client}
         provider={provider}
         evaluator={evaluator}
+        budget={budget}
         status={Number(status)}
         expiresAt={expiresAt}
         onChange={() => refetch()}
