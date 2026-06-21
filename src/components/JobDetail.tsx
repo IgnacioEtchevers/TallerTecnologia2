@@ -3,6 +3,7 @@ import { sepolia } from "wagmi/chains";
 import { formatEther } from "viem";
 import { jobMarketplaceAbi } from "../abis";
 import { MARKETPLACE_ADDRESS } from "../contract";
+import { ActionPanel } from "./ActionPanel";
 
 const STATE = ["Open", "Funded", "Submitted", "Completed", "Rejected", "Expired"] as const;
 
@@ -12,7 +13,7 @@ type JobDetailProps = {
 };
 
 export const JobDetail = ({ jobId, onBack }: JobDetailProps) => {
-  const { data: job } = useReadContract({
+  const { data: job, refetch } = useReadContract({
     address: MARKETPLACE_ADDRESS,
     abi: jobMarketplaceAbi,
     functionName: "getJob",
@@ -23,7 +24,7 @@ export const JobDetail = ({ jobId, onBack }: JobDetailProps) => {
   if (!job) {
     return (
       <section className="card">
-        <button onClick={onBack}>← Volver</button>
+        <button onClick={onBack}>Volver</button>
         <p>Cargando trabajo #{jobId.toString()}…</p>
       </section>
     );
@@ -49,6 +50,15 @@ export const JobDetail = ({ jobId, onBack }: JobDetailProps) => {
       <div className="fila"><span>Expira</span><b>{expira}</b></div>
       <div className="fila"><span>Deliverable</span><code>{deliverableRef}</code></div>
 
+      <ActionPanel
+        jobId={jobId}
+        client={client}
+        provider={provider}
+        evaluator={evaluator}
+        status={Number(status)}
+        expiresAt={expiresAt}
+        onChange={() => refetch()}
+      />
     </section>
   );
 };
