@@ -1,5 +1,5 @@
 import React from "react";
-import { usePublicClient, useReadContract } from "wagmi"
+import { usePublicClient } from "wagmi"
 import { sepolia } from "wagmi/chains";
 import { formatEther } from "viem";
 import { jobMarketplaceAbi } from "../abis";
@@ -24,20 +24,13 @@ export const Dashboard = () => {
         enabled: Boolean(publicClient),
     })
 
-    const { data: total } = useReadContract({
-        address: MARKETPLACE_ADDRESS,
-        abi: jobMarketplaceAbi,
-        functionName: "jobCount",
-        chainId: sepolia.id,
-    }); 
-
     const n = events?.length ?? 0;
     const resolveWording = (n: number): string => {
         return n === 1 ? 'trabajo' : 'trabajos'; 
     }
 
     return (
-        <section>
+        <section className="card">
             <h2>Tablero de trabajos</h2>
 
             {n === 0 && <p>No hay trabajos todavía.</p>}
