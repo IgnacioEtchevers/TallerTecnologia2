@@ -6,7 +6,7 @@ import { Dashboard } from "./components/Dashboard";
 
 type View = 
   | {name: "dashboard"}
-  | {name: "detail"; jobId: number}
+  | {name: "detail"; jobId: bigint}
   | {name: "publish"}
 
 export default function App() {
@@ -35,7 +35,9 @@ export default function App() {
         <button onClick={() => setView({ name: "publish" })}>Publicar trabajo</button>
       </nav>
 
-      {view.name === "dashboard" && <Dashboard/>}
+      {view.name === "dashboard" && (
+        <Dashboard onOpenJob={(id) => setView({ name: "detail", jobId: id })} />
+      )}
       {view.name === "detail" && <p>Detalle del trabajo #{view.jobId.toString()}</p>}
       {view.name === "publish" && <p>Publicar Trabajo</p>}
     </div>

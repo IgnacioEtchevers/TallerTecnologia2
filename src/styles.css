@@ -157,6 +157,16 @@ body {
   margin-bottom: 0;
 }
 
+.jobCard {
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.jobCard:hover {
+  border-color: #bbb;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
 .propTop {
   display: flex;
   justify-content: space-between;

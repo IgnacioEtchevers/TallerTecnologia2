@@ -7,18 +7,20 @@ import { formatEther } from "viem";
 
 type JobCardProps = {
     id: bigint;
-    client: string; 
+    client: string;
     budget: bigint;
     description: string;
+    onOpenJob: (id: bigint) => void;
 }
 
 const STATE = ["Open", "Funded", "Submitted", "Completed", "Rejected", "Expired"] as const;
 
 export const JobCard = ({
-    id, 
-    client, 
+    id,
+    client,
     budget,
     description,
+    onOpenJob,
 }: JobCardProps) => {
 
     const { data: job } = useReadContract({
@@ -33,7 +35,10 @@ export const JobCard = ({
     const state = status !== undefined ? STATE[status] : "...";
 
     return (
-        <div className="prop">
+        <div
+          className="prop jobCard"
+          onClick={() => onOpenJob(id)}
+        >
           <div className="propTop">
             <b>Trabajo #{id.toString()}</b>
             <span className="badge">{state}</span>

@@ -6,7 +6,11 @@ import { MARKETPLACE_ADDRESS } from "../contract";
 import { useQuery } from "@tanstack/react-query";
 import { JobCard } from "./JobCard";
 
-export const Dashboard = () => {
+type DashboardProps = {
+    onOpenJob: (id: bigint) => void;
+};
+
+export const Dashboard = ({ onOpenJob }: DashboardProps) => {
 
     const publicClient = usePublicClient({ chainId: sepolia.id });
 
@@ -45,6 +49,7 @@ export const Dashboard = () => {
                     client={client ?? ""}
                     budget={budget ?? 0n}
                     description={description ?? ""}
+                    onOpenJob={onOpenJob}
                 />
                 );
             })}
