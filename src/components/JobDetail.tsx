@@ -34,6 +34,12 @@ export const JobDetail = ({ jobId, onBack }: JobDetailProps) => {
   const state = STATE[Number(status)] ?? "?";
   const expira = new Date(Number(expiresAt) * 1000).toLocaleString();
 
+  // el contenido del entregable se guarda off-chain (localStorage). On-chain solo
+  // queda el hash (deliverableRef). Si ya se entrego, lo mostramos para que el
+  // evaluador pueda revisarlo (tiene que estar en el mismo navegador que el proveedor).
+  const yaEntrego = deliverableRef !== `0x${"0".repeat(64)}`;
+  const entrega = yaEntrego ? localStorage.getItem(`delivery:${jobId}`) : null;
+
   return (
     <section className="card">
       <button onClick={onBack}>← Volver</button>
@@ -49,6 +55,13 @@ export const JobDetail = ({ jobId, onBack }: JobDetailProps) => {
       <div className="fila"><span>Budget</span><b>{formatEther(budget)} LINK</b></div>
       <div className="fila"><span>Expira</span><b>{expira}</b></div>
       <div className="fila"><span>Deliverable</span><code>{deliverableRef}</code></div>
+
+      {yaEntrego && (
+        <div className="fila">
+          <span>Entrega</span>
+          <b>{entrega ?? "(guardada en otro navegador)"}</b>
+        </div>
+      )}
 
       <ActionPanel
         jobId={jobId}

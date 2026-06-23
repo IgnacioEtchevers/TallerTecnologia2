@@ -70,8 +70,9 @@ SEPOLIA_RPC_URL=https://...         # RPC (Alchemy/Infura), para tests y deploy
 DEPLOYER_PRIVATE_KEY=0x...          # wallet que despliega
 TOKEN_ADDRESS=0x779877A7B0D9E8603169DdbD7836e478b4624789   # LINK en Sepolia (token de pago)
 VITE_WC_PROJECT_ID=...              # de cloud.reown.com
-VITE_MARKETPLACE_ADDRESS=           # se completa después del deploy
+VITE_MARKETPLACE_ADDRESS=0x21692bdbb7a969fa01966cfd8c0c74a38cc03f7a
 VITE_TOKEN_ADDRESS=0x779877A7B0D9E8603169DdbD7836e478b4624789   # misma address que TOKEN_ADDRESS
+VITE_SEPOLIA_RPC_URL=               # opcional; si se deja vacío usa un RPC público (Tenderly)
 ```
 
 ## Deploy a Sepolia
@@ -87,13 +88,29 @@ El script imprime la address del marketplace; copiala a `VITE_MARKETPLACE_ADDRES
 
 ## Direcciones en Sepolia
 
-- **JobMarketplace:** `TODO: completar después del deploy`
+- **JobMarketplace:** `0x21692bdbb7a969fa01966cfd8c0c74a38cc03f7a`
 - **Multisig (Entrega 2, usado como evaluador):** `0xfe39aed085e9093ccac10b8c90aa2bb6abf1496e`
 - **Token ERC-20 de pago (LINK en Sepolia):** `0x779877A7B0D9E8603169DdbD7836e478b4624789`
 
 El token de pago es **LINK en Sepolia**, el mismo ERC-20 que ya leía el panel de la
 Entrega 1. Para probar el flujo se consigue LINK gratis en el faucet de Chainlink
 (https://faucets.chain.link/sepolia). LINK tiene 18 decimales.
+
+## Frontend
+
+Extiende el dashboard de las Entregas 1 y 2 (wagmi + viem + RainbowKit). Todo el estado
+sale de lecturas/escrituras reales al contrato, sin datos simulados. Tres pantallas:
+
+- **Tablero** — lista los trabajos leyendo los eventos `JobCreated` (descripción, budget,
+  badge de estado y cliente).
+- **Detalle** — el struct completo del trabajo (todas las direcciones, estado, expiración)
+  y el panel de acciones según el rol de la wallet conectada (cliente / proveedor /
+  evaluador / cualquiera si expiró).
+- **Publicar** — formulario que llama a `createJob`.
+
+Cada escritura muestra estado de "procesando" mientras la tx confirma, al confirmar
+invalida la query y refresca sin recargar, y si revierte muestra el motivo del error
+(`shortMessage` del custom error).
 
 ## Decisiones de diseño
 
@@ -118,6 +135,14 @@ Entrega 1. Para probar el flujo se consigue LINK gratis en el faucet de Chainlin
   manual; `claimRefund` solo CEI por la razón de arriba.
 - **`getJob` devuelve los campos sueltos** (no el struct), mismo criterio que `getProposal`
   en el Multisig: es más cómodo de leer desde el frontend.
+- **RPC del frontend (Tenderly por defecto).** El Tablero lee los eventos `JobCreated`
+  desde el bloque 0, y el plan free de Alchemy limita `eth_getLogs` a 10 bloques, lo que
+  rompía el listado. Por eso el frontend usa por defecto un RPC público sin ese límite
+  (`sepolia.gateway.tenderly.co`), con override por `VITE_SEPOLIA_RPC_URL`.
+- **Entrega off-chain en `localStorage`.** El contenido del entregable se guarda local
+  (el proveedor lo guarda y on-chain solo va el hash `deliverableRef`); el evaluador lo ve
+  en el Detalle si está en el mismo navegador. Es la opción que la consigna marca como
+  suficiente para esta entrega.
 
 ## Desvíos de la especificación
 

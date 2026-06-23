@@ -7,6 +7,11 @@ export const wagmiConfig = getDefaultConfig({
   projectId: import.meta.env.VITE_WC_PROJECT_ID || "",
   chains: [sepolia],
   transports: {
-    [sepolia.id]: http(),
+    // El Tablero lee eventos desde el bloque 0, y el plan free de Alchemy limita
+    // eth_getLogs a 10 bloques. Por eso usamos por defecto un RPC sin ese limite
+    // (Tenderly), con override por .env si se quiere otro.
+    [sepolia.id]: http(
+      import.meta.env.VITE_SEPOLIA_RPC_URL || "https://sepolia.gateway.tenderly.co"
+    ),
   },
 });
