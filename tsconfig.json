@@ -10,7 +10,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "outDir": "./dist-hardhat",
-    "types": ["node", "mocha", "chai"]
+    "types": ["node", "mocha", "chai", "vite/client"],
+    "jsx": "react-jsx"
   },
   "include": [
     "hardhat.config.ts",
